@@ -10,8 +10,11 @@
 using namespace std;
 #include <string>
 #include <vector>
+#include <iomanip>
 
 #include "Fahrzeug.h"
+
+double dGlobaleZeit = 0.0;
 
 void vAufgabe_1(){
 	Fahrzeug f1;
@@ -43,11 +46,43 @@ void vAufgabe_1(){
 	cout << "use count: " <<	f7.use_count() << endl;
 	sharedFahrzeuge.push_back(sharedf7);
 	cout << "use count: " <<	f7.use_count() << endl; //with use_count we can see that we are still using the shared ptr here
-
+	
+	
+	Fahrzeug::vKopf();
+	cout << endl;
+	f1.vAusgeben();
+	cout << endl;
+	f2.vAusgeben();
+	cout << endl;
 }
-int main() {
-	vAufgabe_1();
+void vAufgabe_1a(){
+	cout << "Aufgabe 1a" << endl << "============" << endl;
+	vector<unique_ptr<Fahrzeug>> fahrzeuge;
+	for(int i = 0; i < 3; i++){
+		cout << "Fahrzeug " << i+1 << "." << "enter Name: " << endl;
+		string name;
+		cin >> name;
+		cout << "enter max speed: " << endl;
+		double maxSpeed;
+		cin >> maxSpeed;
+		fahrzeuge.push_back(make_unique<Fahrzeug>(name, maxSpeed));
+	}
+	Fahrzeug::vKopf();
+	cout << endl;
+	while(dGlobaleZeit < 10){
+		dGlobaleZeit += 0.2;
+		for(auto &f : fahrzeuge){
+			f->vSimulieren();
+			f->vAusgeben();
+			cout << endl;
+		}
+	}
+}
 
-	cout << "!!!Hello World!!!" << endl;
+
+
+int main() {
+	//vAufgabe_1();
+	vAufgabe_1a();
 	return 0;
 }
