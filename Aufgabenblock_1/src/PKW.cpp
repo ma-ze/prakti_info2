@@ -38,14 +38,9 @@ void PKW::vSimulieren()
 {
     if(p_dZeit != dGlobaleZeit)
     {
-        if(p_dTankinhalt <= 0)
-        {
-            p_dAktuelleGeschwindigkeit = 0;
-            return;
-        }
-        Fahrzeug::vSimulieren();
         double elapsedTime = dGlobaleZeit - p_dZeit;
-        p_dTankinhalt -= p_dVerbrauch * p_dAktuelleGeschwindigkeit * elapsedTime / 100;
+        p_dTankinhalt -= p_dVerbrauch * dGeschwindigkeit() * elapsedTime / 100;
+        Fahrzeug::vSimulieren();
     }
 }
 
@@ -54,4 +49,13 @@ void PKW::vAusgeben()
     Fahrzeug::vAusgeben();
     double gestamtVerbrauch = p_dGesamtStrecke / 100 * p_dVerbrauch;
     std::cout << std::setw(15) << gestamtVerbrauch << std::setw(15) << p_dTankinhalt;
+}
+
+double PKW::dGeschwindigkeit()
+{
+    if(p_dTankinhalt <= 0)
+    {
+        return 0;
+    }
+    else return p_dMaxGeschwindigkeit;
 }

@@ -30,9 +30,9 @@ protected:
 	std::string p_sName = "";
 	const int p_iID = 0;
 	const double p_dMaxGeschwindigkeit = 0; // Maximalgeschwindigkeit des Fahrzeugs (assuming km/h)
-	double p_dAktuelleGeschwindigkeit = p_dMaxGeschwindigkeit; // Aktuelle Geschwindigkeit des Fahrzeugs
 	double p_dGesamtStrecke = 0; //die bisher zur¨uckgelegte Gesamtstrecke
 	double p_dGesamtZeit = 0; //gesamte Fahrzeit des Objektes
 	double p_dZeit = 0; //Zeit, zu der das Fahrzeug zuletzt simuliert wurde
+	virtual double dGeschwindigkeit();
 };
 #endif /* FAHRZEUG_H_ */

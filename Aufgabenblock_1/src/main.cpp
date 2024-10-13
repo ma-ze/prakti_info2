@@ -13,6 +13,8 @@ using namespace std;
 #include <iomanip>
 
 #include "Fahrzeug.h"
+#include "PKW.h"
+#include "Fahrrad.h"
 
 double dGlobaleZeit = 0.0;
 
@@ -79,10 +81,52 @@ void vAufgabe_1a(){
 	}
 }
 
+void vAufgabe_2() {
+    int anzahlPKW, anzahlFahrrad;
+    cout << "PKW Anzahl? ";
+    cin >> anzahlPKW;
+    cout << "Fahrrad Anzahl? ";
+    cin >> anzahlFahrrad;
 
+    vector<unique_ptr<Fahrzeug>> fahrzeuge;
+
+    for (int i = 0; i < anzahlPKW; ++i) {
+        string name = "PKW_" + to_string(i + 1);
+        double maxSpeed = 200 + i * 10; // Beispielwerte
+        fahrzeuge.push_back(make_unique<PKW>(name, maxSpeed, 8.0));
+    }
+
+    for (int i = 0; i < anzahlFahrrad; ++i) {
+        string name = "Fahrrad_" + to_string(i + 1);
+        double maxSpeed = 20 + i * 2; // Beispielwerte
+        fahrzeuge.push_back(make_unique<Fahrrad>(name, maxSpeed));
+    }
+
+	Fahrzeug::vKopf();
+	cout << endl;
+
+	while(dGlobaleZeit < 10){
+		if(dGlobaleZeit >= 2.99 && dGlobaleZeit <= 3.01){//tanken after 3 hours
+			for(auto &f : fahrzeuge){
+				PKW *pkw = dynamic_cast<PKW*>(f.get());//dynamic cast to check if the pointer returned by f.get() is a PKW
+				if(pkw != nullptr){
+					pkw->dTanken();
+				}
+			}
+		}
+		dGlobaleZeit += 0.5;
+		for(auto &f : fahrzeuge){
+			f->vSimulieren();
+			f->vAusgeben();
+			cout << endl;
+		}
+	}
+
+}
 
 int main() {
-	//vAufgabe_1();
-	vAufgabe_1a();
-	return 0;
+    //vAufgabe_1();
+    //vAufgabe_1a();
+    vAufgabe_2();
+    return 0;
 }

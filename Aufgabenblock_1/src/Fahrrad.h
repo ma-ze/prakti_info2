@@ -14,6 +14,9 @@ public:
     Fahrrad(const std::string& name, double maxSpeed);
     virtual ~Fahrrad();
 
+private:
+    double dGeschwindigkeit() override;
+
 };
 
 #endif /* FAHRRAD_H_ */
