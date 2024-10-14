@@ -7,7 +7,6 @@
 //============================================================================
 
 #include <iostream>
-using namespace std;
 #include <string>
 #include <vector>
 #include <iomanip>
@@ -15,8 +14,15 @@ using namespace std;
 #include "Fahrzeug.h"
 #include "PKW.h"
 #include "Fahrrad.h"
+using namespace std;
 
 double dGlobaleZeit = 0.0;
+
+ostream& operator<<(ostream& out, Fahrzeug& fahrzeug)
+{
+fahrzeug.vAusgeben(out);
+return out;
+}
 
 void vAufgabe_1(){
 	Fahrzeug f1;
@@ -52,9 +58,9 @@ void vAufgabe_1(){
 	
 	Fahrzeug::vKopf();
 	cout << endl;
-	f1.vAusgeben();
+	f1.vAusgeben(cout);
 	cout << endl;
-	f2.vAusgeben();
+	f2.vAusgeben(cout);
 	cout << endl;
 }
 void vAufgabe_1a(){
@@ -75,7 +81,7 @@ void vAufgabe_1a(){
 		dGlobaleZeit += 0.2;
 		for(auto &f : fahrzeuge){
 			f->vSimulieren();
-			f->vAusgeben();
+			f->vAusgeben(cout);
 			cout << endl;
 		}
 	}
@@ -117,16 +123,45 @@ void vAufgabe_2() {
 		dGlobaleZeit += 0.5;
 		for(auto &f : fahrzeuge){
 			f->vSimulieren();
-			f->vAusgeben();
-			cout << endl;
+			cout << *f << endl;
 		}
 	}
+
+}
+
+void vAufgabe_3() {
+	vector<unique_ptr<Fahrzeug>> fahrzeuge;
+	fahrzeuge.push_back(make_unique<PKW>("Mini", 180, 5.5, 40));
+	fahrzeuge.push_back(make_unique<PKW>("BMW", 220, 7.5, 60));
+	fahrzeuge.push_back(make_unique<Fahrrad>("Bike", 25));
+	Fahrzeug f3("base_fz");
+	
+	Fahrzeug::vKopf();
+	cout << endl;
+	for(auto &f : fahrzeuge){
+		cout << *f << endl;
+	}
+	f3.vAusgeben(cout);cout << endl;
+	PKW f4("Audi", 200, 6.5, 50);
+	f3 = f4; //copying f4 to f3 from PKW to Fahrzeug (implicit conversion) NOTE! properties of PKW are lost
+	f4.vAusgeben(cout);cout << endl;
+	f3.vAusgeben(cout);cout << endl;
+	while(dGlobaleZeit < 10){
+		dGlobaleZeit += 0.5;
+		for(auto &f : fahrzeuge){
+			f->vSimulieren();
+			cout << *f << endl;
+		}
+	}
+	cout << "Gesamtstrecke vom Bike kleiner als vom BMW?  " << (*fahrzeuge[2] < *fahrzeuge[1]) << endl;
+
 
 }
 
 int main() {
     //vAufgabe_1();
     //vAufgabe_1a();
-    vAufgabe_2();
+    //vAufgabe_2();
+	vAufgabe_3();
     return 0;
 }

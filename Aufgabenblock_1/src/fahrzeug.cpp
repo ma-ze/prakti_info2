@@ -21,11 +21,19 @@ Fahrzeug::Fahrzeug(std::string name, double maxGeschwindigkeit)
 }
 // Destructor
 Fahrzeug::~Fahrzeug(){
-    
+    std::cout << "deleted Fahrzeug with ID: " << p_iID << std::endl;
+}
+Fahrzeug& Fahrzeug::operator=(const Fahrzeug& other) {
+    if (this != &other) {
+        p_sName = other.p_sName + "_copy";
+        p_dMaxGeschwindigkeit = other.p_dMaxGeschwindigkeit;
+        //p_iID = ++p_maxID; do not change the ID because this already has an ID
+    }
+    return *this;
 }
 // Methods
-void Fahrzeug::vAusgeben(){
-    std::cout << std::setw(5) << std::setprecision(2) << std::setiosflags(std::ios::fixed) << std::resetiosflags(std::ios::left) << std::setiosflags(std::ios::right)
+void Fahrzeug::vAusgeben(std::ostream& out){
+    out << std::setw(5) << std::setprecision(2) << std::setiosflags(std::ios::fixed) << std::resetiosflags(std::ios::left) << std::setiosflags(std::ios::right)
     << p_iID << std::setw(20) << p_sName << std::setw(20) << p_dMaxGeschwindigkeit << std::setw(15) << p_dGesamtStrecke << std::setw(15) 
     << p_dGesamtZeit << std::setw(15) << p_dZeit;
 }
@@ -46,6 +54,11 @@ void Fahrzeug::vSimulieren(){
 double Fahrzeug::dTanken(double dMenge)
 {
     return 0.0;
+}
+
+bool Fahrzeug::operator<(const Fahrzeug &other) const
+{
+    return p_dGesamtStrecke < other.p_dGesamtStrecke;
 }
 
 double Fahrzeug::dGeschwindigkeit()
