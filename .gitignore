@@ -5,4 +5,5 @@
 */.settings
 */.cproject
 */.project
+*/.gitignore
 bin/
