@@ -10,6 +10,9 @@
 
 #include "Simulationsobjekt.h"
 
+class Verhalten;
+class Weg;
+
 class Fahrzeug : public Simulationsobjekt {
 public:
     Fahrzeug();
@@ -25,12 +28,19 @@ public:
 
     bool operator<(const Fahrzeug& other) const;
 
+    double getGeschwindigkeit() const;
+    double getGesamtStrecke() const;
+    double getAbschnittStrecke() const;
+    void vNeueStrecke(Weg& weg);
+    void vNeueStrecke(Weg& weg, double dStartZeit);
+
 protected:
     double p_dMaxGeschwindigkeit = 0; // Maximalgeschwindigkeit des Fahrzeugs (assuming km/h)
 	double p_dGesamtStrecke = 0; //die bisher zurückgelegte Gesamtstrecke
 	double p_dGesamtZeit = 0; //gesamte Fahrzeit des Objektes
-
+    double p_dAbschnittStrecke = 0; //die Strecke, die das Fahrzeug auf dem aktuellen Weg zurückgelegt hat
     virtual double dGeschwindigkeit() const;
+    std::unique_ptr<Verhalten> p_pVerhalten;
 };
 
 #endif /* FAHRZEUG_H_ */

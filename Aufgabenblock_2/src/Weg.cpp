@@ -35,3 +35,21 @@ const void Weg::vKopf()
         << "ID" << std::setw(20) << "Name" << std::setw(20) << "Laenge" <<  std::resetiosflags(std::ios::right) << std::setiosflags(std::ios::left) << " Fahrzeuge" << std::endl;
     std::cout << "------------------------------------------------------------------------" << std::endl;
 }
+
+double Weg::getLaenge() const {
+    return p_dLaenge;
+}
+
+double Weg::getStreckenLimit() const
+{
+    return getTempolimit(p_eTempolimit);
+}
+
+void Weg::vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug){
+    fahrzeug->vNeueStrecke(*this);
+    p_pFahrzeuge.push_back(std::move(fahrzeug));
+}
+void Weg::vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dStartZeit){
+    fahrzeug->vNeueStrecke(*this, dStartZeit);
+    p_pFahrzeuge.push_front(std::move(fahrzeug));
+}

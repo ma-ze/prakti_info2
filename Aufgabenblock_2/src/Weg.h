@@ -17,6 +17,10 @@ public:
     void vAusgeben(std::ostream& out) const override;
     static const void vKopf();
 
+    double getLaenge() const;
+    double getStreckenLimit() const;
+    void vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug);
+    void vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dStartZeit);
 private:
     double p_dLaenge;
     std::list<std::unique_ptr<Fahrzeug>> p_pFahrzeuge;
