@@ -12,17 +12,17 @@
 #include <iomanip>
 
 #include "Fahrzeug.h"
+#include "Weg.h"
 #include "PKW.h"
 #include "Fahrrad.h"
 using namespace std;
 
-double dGlobaleZeit = 0.0;
-
-ostream& operator<<(ostream& out, Fahrzeug& fahrzeug)
-{
-fahrzeug.vAusgeben(out);
-return out;
+ostream& operator<<(ostream& out, Simulationsobjekt& so){
+    so.vAusgeben(out);
+    return out;
 }
+
+double dGlobaleZeit = 0.0;
 
 void vAufgabe_1(){
 	Fahrzeug f1;
@@ -86,7 +86,6 @@ void vAufgabe_1a(){
 		}
 	}
 }
-
 void vAufgabe_2() {
     int anzahlPKW, anzahlFahrrad;
     cout << "PKW Anzahl? ";
@@ -128,7 +127,6 @@ void vAufgabe_2() {
 	}
 
 }
-
 void vAufgabe_3() {
 	vector<unique_ptr<Fahrzeug>> fahrzeuge;
 	fahrzeuge.push_back(make_unique<PKW>("Mini", 180, 5.5, 40));
@@ -157,7 +155,6 @@ void vAufgabe_3() {
 
 
 }
-
 void vAufgabe_AB1() {
 
     int l = 0; // Laufindex für gezielte AUsgabe
@@ -191,17 +188,12 @@ void vAufgabe_AB1() {
     char c;
     std::cin >> c;
 }
-
+void vAufgabe_4(){
+	Weg w1("Weg1", 100, Tempolimit::Innerorts);
+	Weg::vKopf();
+	cout << w1 << endl;
+}
 int main() {
-    //vAufgabe_1();
-    //vAufgabe_1a();
-    //vAufgabe_2();
-
-
-	double dG;
-	for(dG = 0.0; dG < 10.0; dG += 0.1){
-		cout << dG << endl;
-		if(dG + 0.1 > 5.0) cout << "hi";
-	}
+	vAufgabe_4();
     return 0;
 }

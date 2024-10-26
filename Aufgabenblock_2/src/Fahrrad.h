@@ -15,7 +15,7 @@ public:
     virtual ~Fahrrad();
 
 private:
-    double dGeschwindigkeit() override;
+    double dGeschwindigkeit() const override;
 
 };
 

@@ -8,35 +8,29 @@
 #ifndef FAHRZEUG_H_
 #define FAHRZEUG_H_
 
-#include <iostream>
-#include <string>
-#include <iomanip>
+#include "Simulationsobjekt.h"
 
-extern double dGlobaleZeit;
-
-class Fahrzeug
-{
+class Fahrzeug : public Simulationsobjekt {
 public:
-	Fahrzeug();
-	Fahrzeug(std::string name);
-	Fahrzeug(std::string name, double maxGeschwindigkeit);
-	virtual ~Fahrzeug();
-	Fahrzeug(const Fahrzeug&) = delete; // Verbietet den Copy-Konstruktor
-	Fahrzeug& operator=(const Fahrzeug& other); // Zuweisungsoperator
-	virtual void vAusgeben(std::ostream& out);
-	static const void vKopf();
-	virtual void vSimulieren();
-	virtual double dTanken(double dMenge = std::numeric_limits<double>::infinity());
-	bool operator<(const Fahrzeug& other) const;
+    Fahrzeug();
+    Fahrzeug(const std::string name);
+    Fahrzeug(const std::string name, double maxGeschwindigkeit);
+    virtual ~Fahrzeug();
+
+    Fahrzeug& operator=(const Fahrzeug& other); // Zuweisungsoperator
+    static const void vKopf();
+    virtual void vAusgeben(std::ostream& out) const override;
+    virtual void vSimulieren() override;
+    virtual double dTanken(double dMenge = std::numeric_limits<double>::infinity());
+
+    bool operator<(const Fahrzeug& other) const;
 
 protected:
-	static inline int p_maxID = 0;
-	std::string p_sName = "";
-	int p_iID = 0;
-	double p_dMaxGeschwindigkeit = 0; // Maximalgeschwindigkeit des Fahrzeugs (assuming km/h)
-	double p_dGesamtStrecke = 0; //die bisher zur¨uckgelegte Gesamtstrecke
+    double p_dMaxGeschwindigkeit = 0; // Maximalgeschwindigkeit des Fahrzeugs (assuming km/h)
+	double p_dGesamtStrecke = 0; //die bisher zurückgelegte Gesamtstrecke
 	double p_dGesamtZeit = 0; //gesamte Fahrzeit des Objektes
-	double p_dZeit = 0; //Zeit, zu der das Fahrzeug zuletzt simuliert wurde
-	virtual double dGeschwindigkeit();
+
+    virtual double dGeschwindigkeit() const;
 };
+
 #endif /* FAHRZEUG_H_ */

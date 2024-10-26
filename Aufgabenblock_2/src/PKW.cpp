@@ -44,15 +44,13 @@ void PKW::vSimulieren()
     }
 }
 
-void PKW::vAusgeben(std::ostream& out)
-{
+void PKW::vAusgeben(std::ostream& out) const{
     Fahrzeug::vAusgeben(out);
     double gestamtVerbrauch = p_dGesamtStrecke / 100 * p_dVerbrauch;
     out << std::setw(15) << gestamtVerbrauch << std::setw(15) << p_dTankinhalt;
 }
 
-double PKW::dGeschwindigkeit()
-{
+double PKW::dGeschwindigkeit() const{
     if(p_dTankinhalt <= 0)
     {
         return 0;
