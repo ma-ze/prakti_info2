@@ -5,6 +5,8 @@
 #include "Tempolimit.h"
 #include <list>
 #include <memory>
+#include "vertagt_liste.h"
+#include "vertagt_aktion.h"
 class Fahrzeug;
 
 class Weg : public Simulationsobjekt {
@@ -24,7 +26,7 @@ public:
     std::unique_ptr<Fahrzeug> pAbgabe(const Fahrzeug& fahrzeug);
 private:
     double p_dLaenge;
-    std::list<std::unique_ptr<Fahrzeug>> p_pFahrzeuge;
+    vertagt::VListe<std::unique_ptr<Fahrzeug>> p_pFahrzeuge;
     Tempolimit p_eTempolimit;
     
 };

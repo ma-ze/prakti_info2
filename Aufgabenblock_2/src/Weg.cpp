@@ -13,18 +13,26 @@ Weg::Weg(const std::string& name, double laenge, Tempolimit tempolimit)
 Weg::~Weg() {}
 
 void Weg::vSimulieren() {
+    p_pFahrzeuge.vAktualisieren();
     for (auto& fahrzeug : p_pFahrzeuge) {
         try{
             fahrzeug->vSimulieren();
         }
         catch(Fahrausnahme& e) {
             e.vBearbeiten();
-            return;
         }
         catch(std::exception& e) {
             std::cerr << "Exception caught: " << e.what() << std::endl;
         }
-        fahrzeug->vZeichnen(*this);
+    }
+    p_pFahrzeuge.vAktualisieren();
+    for (auto& fahrzeug : p_pFahrzeuge) { // Zeichnen nachdem alle Fahrzeuge simuliert wurden, not pretty but works
+        try {
+            fahrzeug->vZeichnen(*this);
+        }
+        catch (std::exception& e) {
+            std::cerr << "Exception caught: " << e.what() << std::endl;
+        }
     }
 }
 
@@ -57,19 +65,25 @@ double Weg::getStreckenLimit() const
 }
 
 void Weg::vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug){
+    if(fahrzeug == nullptr){
+        return;
+    }
     fahrzeug->vNeueStrecke(*this);
     p_pFahrzeuge.push_back(std::move(fahrzeug));
 }
 void Weg::vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dStartZeit){
+    if(fahrzeug == nullptr){
+        return;
+    }
     fahrzeug->vNeueStrecke(*this, dStartZeit);
     p_pFahrzeuge.push_front(std::move(fahrzeug));
 }
 
 std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug &fahrzeug){
-    for (auto& f : p_pFahrzeuge) {
-        if (*f == fahrzeug) {
-            std::unique_ptr<Fahrzeug> tempFz = std::move(f);
-            p_pFahrzeuge.remove(f);
+    for(auto it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); ++it){
+        if(**it == fahrzeug){
+            std::unique_ptr<Fahrzeug> tempFz = std::move(*it);
+            p_pFahrzeuge.erase(it);
             return tempFz;
         }
     }

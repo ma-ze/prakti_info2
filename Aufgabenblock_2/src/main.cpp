@@ -10,12 +10,15 @@
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <random>
 
 #include "Fahrzeug.h"
 #include "Weg.h"
 #include "PKW.h"
 #include "Fahrrad.h"
 #include "SimuClient.h"
+#include "vertagt_liste.h"
+#include "vertagt_aktion.h"
 
 using namespace std;
 
@@ -235,10 +238,52 @@ void vAufgabe_6(){
 		vSetzeZeit(dGlobaleZeit);
 		vSleep(20);
 	}
+	vBeendeGrafik();
+}
+void vAufgabe_6a(){
+	static std::mt19937 device(0);
+	std::uniform_int_distribution<int> dist(1, 10);
+	
+	vertagt::VListe<int> liste;
+	for(int i = 0; i < 20; i++){//arbitrary length of 20 here, was sollen wir nehmen?
+		int zuf = dist(device);
+		liste.push_back(zuf);
+	}
+	liste.vAktualisieren();
+	cout << "Liste: " << endl;
+	for(auto &i : liste){
+		cout << i << " ";
+	}
+	cout << endl;
+	for(auto it = liste.begin(); it != liste.end(); ++it){
+		if(*it > 5){
+			liste.erase(it);
+		}
+	}
+	cout << "Liste nachdem erase geplant: " << endl;
+	for(auto &i : liste){
+		cout << i << " ";
+	}
+	cout << endl;
+	liste.vAktualisieren();
+	cout << "Liste nachdem aktualisiert: " << endl;
+	for(auto &i : liste){
+		cout << i << " ";
+	}
+	cout << endl;
+	liste.push_front(100);
+	liste.push_back(200);
+	liste.vAktualisieren();
+	cout << "Liste nachdem push_front und push_back: " << endl;
+	for(auto &i : liste){
+		cout << i << " ";
+	}
+	cout << endl;
+	
 }
 int main() {
 	//vAufgabe_4();
 	vAufgabe_6();
-	vBeendeGrafik();
+	vAufgabe_6a();
     return 0;
 }
