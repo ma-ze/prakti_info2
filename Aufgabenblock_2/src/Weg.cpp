@@ -1,5 +1,6 @@
 #include "Weg.h"
 #include "Fahrzeug.h"
+#include "Fahrausnahme.h"
 #include <iostream>
 #include <iomanip>
 
@@ -13,7 +14,15 @@ Weg::~Weg() {}
 
 void Weg::vSimulieren() {
     for (auto& fahrzeug : p_pFahrzeuge) {
-        fahrzeug->vSimulieren();
+        try{
+            fahrzeug->vSimulieren();
+        }
+        catch(Fahrausnahme& e) {
+            e.vBearbeiten();
+        }
+        catch(std::exception& e) {
+            std::cerr << "Exception caught: " << e.what() << std::endl;
+        }
     }
 }
 

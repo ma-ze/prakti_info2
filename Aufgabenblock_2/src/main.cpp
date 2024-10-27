@@ -200,16 +200,17 @@ void vAufgabe5(){
 	unique_ptr<Fahrzeug> f2 = make_unique<PKW>("BMW", 220, 7.5, 60);
 	unique_ptr<Fahrzeug> f3 = make_unique<Fahrrad>("Bike", 25);
 	w1.vAnnahme(std::move(f1));
-	w1.vAnnahme(std::move(f2), 5);
+	w1.vAnnahme(std::move(f2), 3.0);
 	w1.vAnnahme(std::move(f3), 6);
 	Weg::vKopf();
 	cout << w1 << endl;
 	while(dGlobaleZeit < 10){
-		dGlobaleZeit += 0.5;
+		dGlobaleZeit += 0.3;
 		w1.vSimulieren();
 		cout << "---" << endl;
 	}
 }
+//vAufgabe6() siehe vAufgabe5()
 int main() {
 	//vAufgabe_4();
 	vAufgabe5();

@@ -11,6 +11,7 @@ public:
     virtual ~Verhalten() {}
     // Funktion ermittelt, wie weit ein Fahrzeug innerhalb des ubergebenen Zeitintervalls fahren kann, ohne das Wegende zu uberschreiten.
     virtual double dStrecke(Fahrzeug& aFzg, double dZeitIntervall) = 0;
+    Weg& getWeg() const { return p_Weg; }
 
 protected:
     Weg& p_Weg;

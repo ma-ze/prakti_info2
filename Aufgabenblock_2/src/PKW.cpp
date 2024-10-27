@@ -6,6 +6,7 @@
  */
 
 #include "PKW.h"
+#include "Verhalten.h"
 PKW::PKW(const std::string &name, double maxSpeed, double verbrauch)
 : Fahrzeug(name, maxSpeed), p_dVerbrauch(verbrauch)
 {
@@ -55,5 +56,5 @@ double PKW::dGeschwindigkeit() const{
     {
         return 0;
     }
-    else return p_dMaxGeschwindigkeit;
+    else return p_pVerhalten->getWeg().getStreckenLimit();
 }
