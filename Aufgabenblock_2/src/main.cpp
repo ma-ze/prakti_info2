@@ -15,6 +15,7 @@
 #include "Weg.h"
 #include "PKW.h"
 #include "Fahrrad.h"
+#include "SimuClient.h"
 
 using namespace std;
 
@@ -194,7 +195,7 @@ void vAufgabe_4(){
 	Weg::vKopf();
 	cout << w1 << endl;
 }
-void vAufgabe5(){
+void vAufgabe_5(){
 	Weg w1("Weg1", 100, Tempolimit::Innerorts);
 	unique_ptr<Fahrzeug> f1 = make_unique<PKW>("Mini", 180, 5.5, 40);
 	unique_ptr<Fahrzeug> f2 = make_unique<PKW>("BMW", 220, 7.5, 60);
@@ -210,9 +211,34 @@ void vAufgabe5(){
 		cout << "---" << endl;
 	}
 }
-//vAufgabe6() siehe vAufgabe5()
+void vAufgabe_6(){
+	Weg w1("Weg1", 500, Tempolimit::Autobahn);
+	Weg w2("Weg2", 500, Tempolimit::Autobahn);
+	unique_ptr<Fahrzeug> f1 = make_unique<PKW>("Mini", 180, 5.5, 40);
+	unique_ptr<Fahrzeug> f2 = make_unique<PKW>("BMW", 220, 7.5, 60);
+	unique_ptr<Fahrzeug> f3 = make_unique<Fahrrad>("Bike", 25);
+	w1.vAnnahme(std::move(f1));
+	w1.vAnnahme(std::move(f2), 3.0);
+	w1.vAnnahme(std::move(f3), 6);
+	Weg::vKopf();
+	cout << w1 << endl;
+
+	bInitialisiereGrafik(800, 500);
+	vSleep(0);
+	bZeichneStrasse("Weg1", "Weg2", 500, 2, new int[4]{700, 250, 100, 250});
+
+
+	while(dGlobaleZeit < 10){
+		dGlobaleZeit += 0.01;
+		w1.vSimulieren();
+		cout << "---" << endl;
+		vSetzeZeit(dGlobaleZeit);
+		vSleep(20);
+	}
+}
 int main() {
 	//vAufgabe_4();
-	vAufgabe5();
+	vAufgabe_6();
+	vBeendeGrafik();
     return 0;
 }

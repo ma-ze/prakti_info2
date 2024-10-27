@@ -33,6 +33,7 @@ public:
     double getAbschnittStrecke() const;
     void vNeueStrecke(Weg& weg);
     void vNeueStrecke(Weg& weg, double dStartZeit);
+    virtual void vZeichnen(Weg& weg) const;
 
 protected:
     double p_dMaxGeschwindigkeit = 0; // Maximalgeschwindigkeit des Fahrzeugs (assuming km/h)

@@ -18,7 +18,7 @@ public:
     double dTanken(double dMenge = std::numeric_limits<double>::infinity()) override;
     void vSimulieren() override;
     void vAusgeben(std::ostream& out) const override;
-    
+    void vZeichnen(Weg& weg) const override;
 
 private:
     double p_dVerbrauch = 0; // Verbrauch des PKW (l/100km)

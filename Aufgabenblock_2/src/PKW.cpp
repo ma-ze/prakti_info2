@@ -7,6 +7,8 @@
 
 #include "PKW.h"
 #include "Verhalten.h"
+#include "SimuClient.h"
+
 PKW::PKW(const std::string &name, double maxSpeed, double verbrauch)
 : Fahrzeug(name, maxSpeed), p_dVerbrauch(verbrauch)
 {
@@ -39,9 +41,10 @@ void PKW::vSimulieren()
 {
     if(p_dZeit != dGlobaleZeit)
     {
-        double elapsedTime = dGlobaleZeit - p_dZeit;
-        p_dTankinhalt -= p_dVerbrauch * dGeschwindigkeit() * elapsedTime / 100;
+        double strecke = p_dGesamtStrecke;
         Fahrzeug::vSimulieren();
+        strecke = p_dGesamtStrecke - strecke;  
+        p_dTankinhalt -= (p_dVerbrauch * strecke / 100);
     }
 }
 
@@ -51,10 +54,14 @@ void PKW::vAusgeben(std::ostream& out) const{
     out << std::setw(15) << gestamtVerbrauch << std::setw(15) << p_dTankinhalt;
 }
 
+void PKW::vZeichnen(Weg &weg) const{
+    bZeichnePKW(p_sName, weg.getName(), p_dAbschnittStrecke / weg.getLaenge(), dGeschwindigkeit(), p_dTankinhalt);
+}
+
 double PKW::dGeschwindigkeit() const{
     if(p_dTankinhalt <= 0)
     {
         return 0;
     }
-    else return p_pVerhalten->getWeg().getStreckenLimit();
+    else return std::min(p_pVerhalten->getWeg().getStreckenLimit(), p_dMaxGeschwindigkeit);
 }

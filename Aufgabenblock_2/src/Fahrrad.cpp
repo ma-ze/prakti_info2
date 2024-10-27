@@ -5,6 +5,8 @@
  *      Author: marti
  */
 #include "Fahrrad.h"
+#include "SimuClient.h"
+#include "Weg.h"
 
 Fahrrad::Fahrrad(const std::string& name, double maxSpeed) : Fahrzeug(name, maxSpeed)
 {}
@@ -12,7 +14,12 @@ Fahrrad::Fahrrad(const std::string& name, double maxSpeed) : Fahrzeug(name, maxS
 Fahrrad::~Fahrrad()
 {}
 
-double Fahrrad::dGeschwindigkeit() const{
+void Fahrrad::vZeichnen(Weg &weg) const{
+    bZeichneFahrrad(p_sName, weg.getName(), p_dAbschnittStrecke / weg.getLaenge(), dGeschwindigkeit());
+}
+
+double Fahrrad::dGeschwindigkeit() const
+{
     double geschwindigkeit = p_dMaxGeschwindigkeit;
     double gefahreneStrecke = p_dGesamtStrecke;
     // Berechne den prozentualen Geschwindigkeitsverlust

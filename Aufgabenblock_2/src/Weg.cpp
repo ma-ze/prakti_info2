@@ -23,6 +23,7 @@ void Weg::vSimulieren() {
         catch(std::exception& e) {
             std::cerr << "Exception caught: " << e.what() << std::endl;
         }
+        fahrzeug->vZeichnen(*this);
     }
 }
 

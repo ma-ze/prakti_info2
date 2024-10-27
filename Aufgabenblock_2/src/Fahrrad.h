@@ -13,6 +13,7 @@ class Fahrrad : public Fahrzeug {
 public:
     Fahrrad(const std::string& name, double maxSpeed);
     virtual ~Fahrrad();
+    void vZeichnen(Weg& weg) const override;
 
 private:
     double dGeschwindigkeit() const override;

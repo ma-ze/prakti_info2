@@ -80,3 +80,5 @@ void Fahrzeug::vNeueStrecke(Weg &weg, double dStartZeit){
     p_pVerhalten = std::make_unique<Parken>(weg, dStartZeit);
     p_dAbschnittStrecke = 0;
 }
+
+void Fahrzeug::vZeichnen(Weg &weg) const{}
