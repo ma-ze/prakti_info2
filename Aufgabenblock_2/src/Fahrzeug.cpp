@@ -27,7 +27,6 @@ Fahrzeug& Fahrzeug::operator=(const Fahrzeug& other) {
     }
     return *this;
 }
-// Methods
 void Fahrzeug::vAusgeben(std::ostream& out) const {
     Simulationsobjekt::vAusgeben(out);
     out << std::setw(20) << p_dMaxGeschwindigkeit << std::setw(15) << p_dGesamtStrecke << std::setw(15) 

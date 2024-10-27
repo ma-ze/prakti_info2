@@ -21,11 +21,12 @@ public:
     double getStreckenLimit() const;
     void vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug);
     void vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dStartZeit);
-
+    std::unique_ptr<Fahrzeug> pAbgabe(const Fahrzeug& fahrzeug);
 private:
     double p_dLaenge;
     std::list<std::unique_ptr<Fahrzeug>> p_pFahrzeuge;
     Tempolimit p_eTempolimit;
+    
 };
 
 #endif /* WEG_H_ */

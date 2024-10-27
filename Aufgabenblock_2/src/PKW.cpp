@@ -45,6 +45,7 @@ void PKW::vSimulieren()
         Fahrzeug::vSimulieren();
         strecke = p_dGesamtStrecke - strecke;  
         p_dTankinhalt -= (p_dVerbrauch * strecke / 100);
+        if(p_dTankinhalt < 0) p_dTankinhalt = 0;
     }
 }
 

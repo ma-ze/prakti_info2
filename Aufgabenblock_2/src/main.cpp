@@ -214,12 +214,12 @@ void vAufgabe_5(){
 void vAufgabe_6(){
 	Weg w1("Weg1", 500, Tempolimit::Autobahn);
 	Weg w2("Weg2", 500, Tempolimit::Autobahn);
-	unique_ptr<Fahrzeug> f1 = make_unique<PKW>("Mini", 180, 5.5, 40);
+	unique_ptr<Fahrzeug> f1 = make_unique<PKW>("Mini", 180, 5.5, 250);
 	unique_ptr<Fahrzeug> f2 = make_unique<PKW>("BMW", 220, 7.5, 60);
 	unique_ptr<Fahrzeug> f3 = make_unique<Fahrrad>("Bike", 25);
 	w1.vAnnahme(std::move(f1));
-	w1.vAnnahme(std::move(f2), 3.0);
-	w1.vAnnahme(std::move(f3), 6);
+	w1.vAnnahme(std::move(f2), 1.0);
+	w1.vAnnahme(std::move(f3), 0.5);
 	Weg::vKopf();
 	cout << w1 << endl;
 
@@ -229,7 +229,7 @@ void vAufgabe_6(){
 
 
 	while(dGlobaleZeit < 10){
-		dGlobaleZeit += 0.01;
+		dGlobaleZeit += 0.1;
 		w1.vSimulieren();
 		cout << "---" << endl;
 		vSetzeZeit(dGlobaleZeit);

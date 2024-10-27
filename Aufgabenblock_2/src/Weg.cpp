@@ -19,6 +19,7 @@ void Weg::vSimulieren() {
         }
         catch(Fahrausnahme& e) {
             e.vBearbeiten();
+            return;
         }
         catch(std::exception& e) {
             std::cerr << "Exception caught: " << e.what() << std::endl;
@@ -62,4 +63,15 @@ void Weg::vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug){
 void Weg::vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dStartZeit){
     fahrzeug->vNeueStrecke(*this, dStartZeit);
     p_pFahrzeuge.push_front(std::move(fahrzeug));
+}
+
+std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug &fahrzeug){
+    for (auto& f : p_pFahrzeuge) {
+        if (*f == fahrzeug) {
+            std::unique_ptr<Fahrzeug> tempFz = std::move(f);
+            p_pFahrzeuge.remove(f);
+            return tempFz;
+        }
+    }
+    return nullptr;
 }
