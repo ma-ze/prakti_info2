@@ -22,6 +22,7 @@ public:
     bool operator==(const Simulationsobjekt& other) const;
 
     std::string getName() const;
+    int getID() const;
 
 protected:
     static inline int p_maxID = 0;

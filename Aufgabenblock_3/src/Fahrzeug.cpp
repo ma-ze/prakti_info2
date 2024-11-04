@@ -10,6 +10,11 @@
 #include "Parken.h"
 #include "Weg.h"
 
+std::ostream& operator<<(std::ostream& out, Simulationsobjekt& so){
+    so.vAusgeben(out);
+    return out;
+}
+
 // Constructor
 Fahrzeug::Fahrzeug()
 :Simulationsobjekt(){}
@@ -81,3 +86,7 @@ void Fahrzeug::vNeueStrecke(Weg &weg, double dStartZeit){
 }
 
 void Fahrzeug::vZeichnen(Weg &weg) const{}
+
+bool Fahrzeug::bLiegengeblieben() const{
+    return p_bLiegengeblieben;
+}

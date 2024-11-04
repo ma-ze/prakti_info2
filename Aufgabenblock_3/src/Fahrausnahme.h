@@ -2,7 +2,6 @@
 #define FAHRAUSNAHME_H_
 
 #include <exception>
-#include <string>
 #include "Fahrzeug.h"
 #include "Weg.h"
 

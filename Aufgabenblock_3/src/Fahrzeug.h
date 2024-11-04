@@ -13,6 +13,9 @@
 class Verhalten;
 class Weg;
 
+std::ostream& operator<<(std::ostream& out, Simulationsobjekt& so);
+
+
 class Fahrzeug : public Simulationsobjekt {
 public:
     Fahrzeug();
@@ -34,6 +37,7 @@ public:
     void vNeueStrecke(Weg& weg);
     void vNeueStrecke(Weg& weg, double dStartZeit);
     virtual void vZeichnen(Weg& weg) const;
+    bool bLiegengeblieben() const;
 
 protected:
     double p_dMaxGeschwindigkeit = 0; // Maximalgeschwindigkeit des Fahrzeugs (assuming km/h)
@@ -42,6 +46,7 @@ protected:
     double p_dAbschnittStrecke = 0; //die Strecke, die das Fahrzeug auf dem aktuellen Weg zurückgelegt hat
     virtual double dGeschwindigkeit() const;
     std::unique_ptr<Verhalten> p_pVerhalten;
+    bool p_bLiegengeblieben = false;
 };
 
 #endif /* FAHRZEUG_H_ */

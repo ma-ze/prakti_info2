@@ -1,14 +1,15 @@
 #include "Weg.h"
 #include "Fahrzeug.h"
 #include "Fahrausnahme.h"
+#include "PKW.h"
 #include <iostream>
 #include <iomanip>
 
 Weg::Weg()
     : Simulationsobjekt(), p_dLaenge(0), p_eTempolimit(Tempolimit::Autobahn) {}
 
-Weg::Weg(const std::string& name, double laenge, Tempolimit tempolimit)
-    : Simulationsobjekt(name), p_dLaenge(laenge), p_eTempolimit(tempolimit) {}
+Weg::Weg(const std::string& name, double laenge, Tempolimit tempolimit, bool ueberholverbot)
+    : Simulationsobjekt(name), p_dLaenge(laenge), p_eTempolimit(tempolimit), p_bUeberholverbot(ueberholverbot) {}
 
 Weg::~Weg() {}
 
@@ -84,4 +85,25 @@ std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug &fahrzeug){
         }
     }
     return nullptr;
+}
+bool Weg::getUeberholverbot() const{
+    return p_bUeberholverbot;
+}
+
+const std::vector<std::vector<double>> Weg::getFzPositions() const{
+    //vector mit allen Fahrzeugen auf diesem Weg und deren abschnittStrecke
+    std::vector<std::vector<double>> fahrzeuge;
+    for(auto &f : p_pFahrzeuge){
+        if(f == nullptr){
+            continue;
+        }
+        if(f->bLiegengeblieben()){
+            continue;
+        }
+        std::vector<double> temp;
+        temp.push_back(f->getID());
+        temp.push_back(f->getAbschnittStrecke());
+        fahrzeuge.push_back(temp);
+    }
+    return fahrzeuge;
 }

@@ -22,10 +22,7 @@
 
 using namespace std;
 
-ostream& operator<<(ostream& out, Simulationsobjekt& so){
-    so.vAusgeben(out);
-    return out;
-}
+
 
 double dGlobaleZeit = 0.0;
 
@@ -309,9 +306,33 @@ void testat(){
 		cout << i << " ";
 	}
 }
+void vAufgabe_6_block3(){
+	Weg w1("Weg1", 500, Tempolimit::Autobahn);
+	unique_ptr<Fahrzeug> f1 = make_unique<PKW>("Mini", 80, 5.5, 250);
+	unique_ptr<Fahrzeug> f3 = make_unique<PKW>("Dummerchen", 200, 5.5, 10);
+	unique_ptr<Fahrzeug> f2 = make_unique<PKW>("BMW", 220, 7.5, 60);
+	w1.vAnnahme(std::move(f1));
+	w1.vAnnahme(std::move(f3));
+	w1.vAnnahme(std::move(f2), 2);
+	Weg::vKopf();
+	cout << w1 << endl;
 
+	bInitialisiereGrafik(800, 500);
+	vSleep(0);
+	bZeichneStrasse("Weg1", "Weg2", 500, 2, new int[4]{700, 250, 100, 250});
+
+
+	while(dGlobaleZeit < 10){
+		dGlobaleZeit += 0.1;
+		w1.vSimulieren();
+		//cout << "---" << endl;
+		vSetzeZeit(dGlobaleZeit);
+		vSleep(20);
+	}
+	vBeendeGrafik();
+}
 
 int main() {
-
+	vAufgabe_6_block3();
     return 0;
 }

@@ -12,7 +12,7 @@ class Fahrzeug;
 class Weg : public Simulationsobjekt {
 public:
     Weg();
-    Weg(const std::string& name, double laenge, Tempolimit tempolimit = Tempolimit::Autobahn);
+    Weg(const std::string& name, double laenge, Tempolimit tempolimit = Tempolimit::Autobahn, bool ueberholverbot = true);
     virtual ~Weg();
 
     void vSimulieren() override;
@@ -24,11 +24,13 @@ public:
     void vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug);
     void vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dStartZeit);
     std::unique_ptr<Fahrzeug> pAbgabe(const Fahrzeug& fahrzeug);
+    bool getUeberholverbot() const;
+    const std::vector<std::vector<double>> getFzPositions() const;
 private:
     double p_dLaenge;
     vertagt::VListe<std::unique_ptr<Fahrzeug>> p_pFahrzeuge;
     Tempolimit p_eTempolimit;
-    
+    bool p_bUeberholverbot;
 };
 
 #endif /* WEG_H_ */

@@ -7,7 +7,10 @@ class Streckenende : public Fahrausnahme {
 public:
     Streckenende(Fahrzeug& fahrzeug, Weg& weg) : Fahrausnahme(fahrzeug, weg) {}
     void vBearbeiten() override {
-        std::cout << "Fahrausnahme: Streckenende auf " << p_weg.getName() << " mit Fahrzeug " << p_fahrzeug.getName() << std::endl;
+        
+        std::cout << std::endl << "⛔ Fahrausnahme: Streckenende auf " << p_weg.getName() << " mit Fahrzeug: " << std::endl;
+        Fahrzeug::vKopf();
+        std::cout << p_fahrzeug << std::endl << std::endl;
         p_weg.pAbgabe(p_fahrzeug);
     }
 };

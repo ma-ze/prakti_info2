@@ -7,8 +7,10 @@ class Losfahren : public Fahrausnahme {
 public:
     Losfahren(Fahrzeug& fahrzeug, Weg& weg) : Fahrausnahme(fahrzeug, weg) {}
     void vBearbeiten() override {
-        std::cout << "Fahrausnahme: Losfahren auf " << p_weg.getName() << " mit Fahrzeug " << p_fahrzeug.getName() << std::endl;
-        p_weg.vAnnahme(p_weg.pAbgabe(p_fahrzeug));//TODO: how the fuck do I do this if pAbgabe is private
+        std::cout << std::endl << "🛻 Fahrausnahme: Losfahren auf " << p_weg.getName() << " mit Fahrzeug: "<< std::endl;
+        Fahrzeug::vKopf();
+        std::cout << p_fahrzeug << std::endl << std::endl;
+        p_weg.vAnnahme(p_weg.pAbgabe(p_fahrzeug));
     }
 };
 

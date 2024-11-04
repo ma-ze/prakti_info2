@@ -34,6 +34,7 @@ double PKW::dTanken(double dMenge)
         dMenge = p_dTankvolumen - p_dTankinhalt;
         p_dTankinhalt = p_dTankvolumen;
     }
+    p_bLiegengeblieben = false;
     return dMenge;
 }
 
@@ -45,7 +46,10 @@ void PKW::vSimulieren()
         Fahrzeug::vSimulieren();
         strecke = p_dGesamtStrecke - strecke;  
         p_dTankinhalt -= (p_dVerbrauch * strecke / 100);
-        if(p_dTankinhalt < 0) p_dTankinhalt = 0;
+        if(p_dTankinhalt < 0){
+            p_dTankinhalt = 0;
+            p_bLiegengeblieben = true;
+        }
     }
 }
 
