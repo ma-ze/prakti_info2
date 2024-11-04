@@ -221,7 +221,7 @@ void vAufgabe_6(){
 	unique_ptr<Fahrzeug> f2 = make_unique<PKW>("BMW", 220, 7.5, 60);
 	unique_ptr<Fahrzeug> f3 = make_unique<Fahrrad>("Bike", 25);
 	w1.vAnnahme(std::move(f1));
-	w1.vAnnahme(std::move(f2), 1.0);
+	w1.vAnnahme(std::move(f2), 3.0);
 	w1.vAnnahme(std::move(f3), 0.5);
 	Weg::vKopf();
 	cout << w1 << endl;
@@ -281,9 +281,39 @@ void vAufgabe_6a(){
 	cout << endl;
 	
 }
+void testat(){
+/* 	unique_ptr<Fahrzeug> pPKW = make_unique<PKW>("BMW",150, 6, 500);
+	Weg aStr("Strasse",500);
+	aStr.vAnnahme(std::move(pPKW));
+
+
+
+	while(dGlobaleZeit < 10){
+		dGlobaleZeit += 1;
+		aStr.vSimulieren();
+		cout << "---" << endl;
+	}
+ */
+
+	list<int> listT(3, 2);
+    listT.remove(1);
+    listT.erase(listT.begin());
+    for (int i = 0; i < 3; i++)
+    {
+        listT.push_back(i);
+    }
+    listT.pop_back();
+    listT.remove(1);
+    listT.erase(listT.begin());
+	for(auto &i : listT){
+		cout << i << " ";
+	}
+}
 int main() {
 	//vAufgabe_4();
+	//vAufgabe_5();
 	vAufgabe_6();
-	vAufgabe_6a();
+	//vAufgabe_6a();
+	//testat();
     return 0;
 }

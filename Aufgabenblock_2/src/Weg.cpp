@@ -17,6 +17,7 @@ void Weg::vSimulieren() {
     for (auto& fahrzeug : p_pFahrzeuge) {
         try{
             fahrzeug->vSimulieren();
+            fahrzeug->vZeichnen(*this);
         }
         catch(Fahrausnahme& e) {
             e.vBearbeiten();
@@ -26,14 +27,6 @@ void Weg::vSimulieren() {
         }
     }
     p_pFahrzeuge.vAktualisieren();
-    for (auto& fahrzeug : p_pFahrzeuge) { // Zeichnen nachdem alle Fahrzeuge simuliert wurden, not pretty but works
-        try {
-            fahrzeug->vZeichnen(*this);
-        }
-        catch (std::exception& e) {
-            std::cerr << "Exception caught: " << e.what() << std::endl;
-        }
-    }
 }
 
 void Weg::vAusgeben(std::ostream& out) const {
@@ -81,6 +74,9 @@ void Weg::vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dStartZeit){
 
 std::unique_ptr<Fahrzeug> Weg::pAbgabe(const Fahrzeug &fahrzeug){
     for(auto it = p_pFahrzeuge.begin(); it != p_pFahrzeuge.end(); ++it){
+        if(*it == nullptr){
+            continue;
+        }
         if(**it == fahrzeug){
             std::unique_ptr<Fahrzeug> tempFz = std::move(*it);
             p_pFahrzeuge.erase(it);
