@@ -309,11 +309,9 @@ void testat(){
 		cout << i << " ";
 	}
 }
+
+
 int main() {
-	//vAufgabe_4();
-	//vAufgabe_5();
-	vAufgabe_6();
-	//vAufgabe_6a();
-	//testat();
+
     return 0;
 }
