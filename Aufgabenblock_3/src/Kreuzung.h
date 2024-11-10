@@ -16,8 +16,8 @@ public:
         const std::string&  weg_hin, 
         const std::string&  weg_rueck, 
         double              laenge, 
-        Kreuzung&           kreuzung_start, 
-        Kreuzung&           kreuzung_ende, 
+        std::shared_ptr<Kreuzung> kreuzung_start, 
+        std::shared_ptr<Kreuzung> kreuzung_ende, 
         Tempolimit          tempolimit = Tempolimit::Autobahn, 
         bool                ueberholverbot = true
     );

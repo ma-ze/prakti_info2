@@ -16,13 +16,13 @@ Kreuzung& Kreuzung::operator=(const Kreuzung& other) {
 }
 
 void Kreuzung::vVerbinde(const std::string &weg_hin, const std::string &weg_rueck, double laenge,
-                         Kreuzung &kreuzung_start, Kreuzung &kreuzung_ende, Tempolimit tempolimit, bool ueberholverbot)
+                         std::shared_ptr<Kreuzung> kreuzung_start, std::shared_ptr<Kreuzung> kreuzung_ende, Tempolimit tempolimit, bool ueberholverbot)
 {
-    std::shared_ptr<Weg> hin = std::make_shared<Weg>(weg_hin, laenge, tempolimit, ueberholverbot, std::make_shared<Kreuzung>(kreuzung_ende), nullptr);
-    std::shared_ptr<Weg> rueck = std::make_shared<Weg>(weg_rueck, laenge, tempolimit, ueberholverbot, std::make_shared<Kreuzung>(kreuzung_start), hin);
+    std::shared_ptr<Weg> hin = std::make_shared<Weg>(weg_hin, laenge, tempolimit, ueberholverbot, kreuzung_ende, nullptr);
+    std::shared_ptr<Weg> rueck = std::make_shared<Weg>(weg_rueck, laenge, tempolimit, ueberholverbot, kreuzung_start, hin);
     hin->setRueckweg(rueck);
-    kreuzung_start.p_pWege.push_back(hin);
-    kreuzung_ende.p_pWege.push_back(rueck);
+    kreuzung_start->p_pWege.push_back(hin);
+    kreuzung_ende->p_pWege.push_back(rueck);
 }
 void Kreuzung::vTanken(Fahrzeug *fzg){
     if(fzg == nullptr || p_dTankstelle <= 0){
@@ -43,6 +43,7 @@ void Kreuzung::vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dStartZeit){
         p_pWege.front()->vAnnahme(std::move(fahrzeug), dStartZeit);
     }
 }
+
 void Kreuzung::vSimulieren()
 {
     for(auto &weg : p_pWege){
@@ -55,11 +56,11 @@ std::shared_ptr<Weg> Kreuzung::pZufaelligerWeg(Weg &ankommenderWeg){
     for (auto &weg : p_pWege) {
         if (weg.get() != ankommenderWeg.getRueckweg().get()) {
             moeglicheWege.push_back(weg);
-        }
+        } 
     }
 
     if (moeglicheWege.empty()) {
-        return ankommenderWeg.getRueckweg();
+    return ankommenderWeg.getRueckweg();
     }
 
     int zufaelligerIndex = rand() % moeglicheWege.size();
