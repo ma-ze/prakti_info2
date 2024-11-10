@@ -6,19 +6,25 @@
 #include <iomanip>
 
 Weg::Weg()
-    : Simulationsobjekt(), p_dLaenge(0), p_eTempolimit(Tempolimit::Autobahn) {}
+    : Simulationsobjekt(), p_dLaenge(0), 
+      p_eTempolimit(Tempolimit::Autobahn) {}
 
-Weg::Weg(const std::string& name, double laenge, Tempolimit tempolimit, bool ueberholverbot)
-    : Simulationsobjekt(name), p_dLaenge(laenge), p_eTempolimit(tempolimit), p_bUeberholverbot(ueberholverbot) {}
+Weg::Weg(const std::string& name, double laenge, Tempolimit tempolimit, bool ueberholverbot, std::shared_ptr<Kreuzung> zielkreuzung, std::shared_ptr<Weg> rueckweg)
+    : Simulationsobjekt(name),
+      p_dLaenge(laenge),
+      p_eTempolimit(tempolimit),
+      p_bUeberholverbot(ueberholverbot),
+      p_pZielkreuzung(zielkreuzung),
+      p_pRueckweg(rueckweg) {}
 
 Weg::~Weg() {}
 
 void Weg::vSimulieren() {
     p_pFahrzeuge.vAktualisieren();
-    for (auto& fahrzeug : p_pFahrzeuge) {
+    for (auto& fahrzeugPtr : p_pFahrzeuge) {
         try{
-            fahrzeug->vSimulieren();
-            fahrzeug->vZeichnen(*this);
+            fahrzeugPtr->vSimulieren();
+            fahrzeugPtr->vZeichnen(*this);
         }
         catch(Fahrausnahme& e) {
             e.vBearbeiten();
@@ -90,7 +96,7 @@ bool Weg::getUeberholverbot() const{
     return p_bUeberholverbot;
 }
 
-const std::vector<std::vector<double>> Weg::getFzPositions() const{
+std::vector<std::vector<double>> Weg::getFzPositions() const{
     //vector mit allen Fahrzeugen auf diesem Weg und deren abschnittStrecke
     std::vector<std::vector<double>> fahrzeuge;
     for(auto &f : p_pFahrzeuge){
@@ -106,4 +112,21 @@ const std::vector<std::vector<double>> Weg::getFzPositions() const{
         fahrzeuge.push_back(temp);
     }
     return fahrzeuge;
+}
+/**
+ * This function uses the lock() method to convert the weak pointer p_pZielkreuzung
+ * to a shared pointer. The lock() method attempts to create a shared_ptr that 
+ * shares ownership of the object managed by the weak_ptr. If the weak_ptr is 
+ * expired, the returned shared_ptr will be empty.
+ */
+std::shared_ptr<Kreuzung> Weg::getZielkreuzung() const{
+    return p_pZielkreuzung.lock();
+}
+
+std::shared_ptr<Weg> Weg::getRueckweg() const{
+    return p_pRueckweg.lock();
+}
+
+void Weg::setRueckweg(const std::shared_ptr<Weg> &rueckweg){
+    p_pRueckweg = rueckweg;
 }
