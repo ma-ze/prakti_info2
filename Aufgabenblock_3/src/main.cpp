@@ -11,6 +11,7 @@
 #include <vector>
 #include <iomanip>
 #include <random>
+#include <fstream>
 
 #include "Fahrzeug.h"
 #include "Weg.h"
@@ -20,9 +21,6 @@
 #include "vertagt_liste.h"
 #include "vertagt_aktion.h"
 
-using namespace std;
-
-
 
 double dGlobaleZeit = 0.0;
 
@@ -31,86 +29,86 @@ void vAufgabe_1(){
 	Fahrzeug f2("BMW");
 	Fahrzeug *f3 = new Fahrzeug("Audi");
 	//delete f3;
-	unique_ptr<Fahrzeug> f4 = make_unique<Fahrzeug>();
-	unique_ptr<Fahrzeug> f5 = make_unique<Fahrzeug>();
-	//unique_ptr<Fahrzeug> stupid = f4;
+	std::unique_ptr<Fahrzeug> f4 = std::make_unique<Fahrzeug>();
+	std::unique_ptr<Fahrzeug> f5 = std::make_unique<Fahrzeug>();
+	//std::unique_ptr<Fahrzeug> stupid = f4;
 
-	shared_ptr<Fahrzeug> f6 = make_shared<Fahrzeug>();
-	shared_ptr<Fahrzeug> f7 = make_shared<Fahrzeug>();
+	std::shared_ptr<Fahrzeug> f6 = std::make_shared<Fahrzeug>();
+	std::shared_ptr<Fahrzeug> f7 = std::make_shared<Fahrzeug>();
 
-	cout << "use count: " <<	f7.use_count() << endl;
-	shared_ptr<Fahrzeug> sharedf7 = f7;
-	cout << "use count: " <<	f7.use_count() << endl;
+	std::cout << "use count: " <<	f7.use_count() << std::endl;
+	std::shared_ptr<Fahrzeug> sharedf7 = f7;
+	std::cout << "use count: " <<	f7.use_count() << std::endl;
 
-	vector<unique_ptr<Fahrzeug>> fahrzeuge; //a vector of unique pointers
-	fahrzeuge.push_back(unique_ptr<Fahrzeug>(f3)); //implicitly creates a unique ptr from the raw pointer (not so good)
+	std::vector<std::unique_ptr<Fahrzeug>> fahrzeuge; //a vector of unique pointers
+	fahrzeuge.push_back(std::unique_ptr<Fahrzeug>(f3)); //implicitly creates a unique ptr from the raw pointer (not so good)
 	fahrzeuge.push_back(std::move(f4)); //moves f4 from original pointer to the new pointer in the vector of ptrs
 	fahrzeuge.push_back(std::move(f5));
-	fahrzeuge.push_back(make_unique<Fahrzeug>("Mini"));
+	fahrzeuge.push_back(std::make_unique<Fahrzeug>("Mini"));
 	fahrzeuge.clear(); //deletes all elements in the vector
 
-	vector<shared_ptr<Fahrzeug>> sharedFahrzeuge;
+	std::vector<std::shared_ptr<Fahrzeug>> sharedFahrzeuge;
 	sharedFahrzeuge.push_back(std::move(f6));
 	sharedFahrzeuge.push_back(f7); //if we use move on this, it would delete the original pointer
 	
-	cout << "use count: " <<	f7.use_count() << endl;
+	std::cout << "use count: " <<	f7.use_count() << std::endl;
 	sharedFahrzeuge.push_back(sharedf7);
-	cout << "use count: " <<	f7.use_count() << endl; //with use_count we can see that we are still using the shared ptr here
+	std::cout << "use count: " <<	f7.use_count() << std::endl; //with use_count we can see that we are still using the shared ptr here
 	
 	
 	Fahrzeug::vKopf();
-	cout << endl;
-	f1.vAusgeben(cout);
-	cout << endl;
-	f2.vAusgeben(cout);
-	cout << endl;
+	std::cout << std::endl;
+	f1.vAusgeben(std::cout);
+	std::cout << std::endl;
+	f2.vAusgeben(std::cout);
+	std::cout << std::endl;
 }
 void vAufgabe_1a(){
-	cout << "Aufgabe 1a" << endl << "============" << endl;
-	vector<unique_ptr<Fahrzeug>> fahrzeuge;
+	std::cout << "Aufgabe 1a" << std::endl << "============" << std::endl;
+	std::vector<std::unique_ptr<Fahrzeug>> fahrzeuge;
 	for(int i = 0; i < 3; i++){
-		cout << "Fahrzeug " << i+1 << "." << "enter Name: " << endl;
-		string name;
-		cin >> name;
-		cout << "enter max speed: " << endl;
+		std::cout << "Fahrzeug " << i+1 << "." << "enter Name: " << std::endl;
+		std::string name;
+		std::cin >> name;
+		std::cout << "enter max speed: " << std::endl;
 		double maxSpeed;
-		cin >> maxSpeed;
-		fahrzeuge.push_back(make_unique<Fahrzeug>(name, maxSpeed));
+		std::cin >> maxSpeed;
+		fahrzeuge.push_back(std::make_unique<Fahrzeug>(name, maxSpeed));
 	}
 	Fahrzeug::vKopf();
-	cout << endl;
+	std::cout << std::endl;
 	while(dGlobaleZeit < 10){
 		dGlobaleZeit += 0.2;
 		for(auto &f : fahrzeuge){
 			f->vSimulieren();
-			f->vAusgeben(cout);
-			cout << endl;
+			f->vAusgeben(std::cout);
+			std::cout << std::endl;
 		}
 	}
 }
 void vAufgabe_2() {
     int anzahlPKW, anzahlFahrrad;
-    cout << "PKW Anzahl? ";
-    cin >> anzahlPKW;
-    cout << "Fahrrad Anzahl? ";
-    cin >> anzahlFahrrad;
+    std::cout << "PKW Anzahl? ";
+    std::cin >> anzahlPKW;
+    std::cout << "Fahrrad Anzahl? ";
+    std::cin >> anzahlFahrrad;
 
-    vector<unique_ptr<Fahrzeug>> fahrzeuge;
+    std::vector<std::unique_ptr<Fahrzeug>> fahrzeuge;
 
     for (int i = 0; i < anzahlPKW; ++i) {
-        string name = "PKW_" + to_string(i + 1);
+        std::string name = "PKW_" + std::to_string(i + 1);
         double maxSpeed = 200 + i * 10; // Beispielwerte
-        fahrzeuge.push_back(make_unique<PKW>(name, maxSpeed, 8.0));
+        fahrzeuge.push_back(std::make_unique<PKW>(name, maxSpeed, 8.0));
     }
 
     for (int i = 0; i < anzahlFahrrad; ++i) {
-        string name = "Fahrrad_" + to_string(i + 1);
+        std::string name = "Fahrrad_" + std::to_string(i + 1);
         double maxSpeed = 20 + i * 2; // Beispielwerte
-        fahrzeuge.push_back(make_unique<Fahrrad>(name, maxSpeed));
+        fahrzeuge.push_back(std::make_unique<Fahrrad>(name, maxSpeed));
     }
 
 	Fahrzeug::vKopf();
-	cout << endl;
+	std::cout << std::endl;
 
 	while(dGlobaleZeit < 10){
 		if(dGlobaleZeit >= 2.99 && dGlobaleZeit <= 3.01){//tanken after 3 hours
@@ -124,48 +122,48 @@ void vAufgabe_2() {
 		dGlobaleZeit += 0.5;
 		for(auto &f : fahrzeuge){
 			f->vSimulieren();
-			cout << *f << endl;
+			std::cout << *f << std::endl;
 		}
 	}
 
 }
 void vAufgabe_3() {
-	vector<unique_ptr<Fahrzeug>> fahrzeuge;
-	fahrzeuge.push_back(make_unique<PKW>("Mini", 180, 5.5, 40));
-	fahrzeuge.push_back(make_unique<PKW>("BMW", 220, 7.5, 60));
-	fahrzeuge.push_back(make_unique<Fahrrad>("Bike", 25));
+	std::vector<std::unique_ptr<Fahrzeug>> fahrzeuge;
+	fahrzeuge.push_back(std::make_unique<PKW>("Mini", 180, 5.5, 40));
+	fahrzeuge.push_back(std::make_unique<PKW>("BMW", 220, 7.5, 60));
+	fahrzeuge.push_back(std::make_unique<Fahrrad>("Bike", 25));
 	Fahrzeug f3("base_fz");
 	
 	Fahrzeug::vKopf();
-	cout << endl;
+	std::cout << std::endl;
 	for(auto &f : fahrzeuge){
-		cout << *f << endl;
+		std::cout << *f << std::endl;
 	}
-	f3.vAusgeben(cout);cout << endl;
+	f3.vAusgeben(std::cout);std::cout << std::endl;
 	PKW f4("Audi", 200, 6.5, 50);
 	f3 = f4; //copying f4 to f3 from PKW to Fahrzeug (implicit conversion) NOTE! properties of PKW are lost
-	f4.vAusgeben(cout);cout << endl;
-	f3.vAusgeben(cout);cout << endl;
+	f4.vAusgeben(std::cout);std::cout << std::endl;
+	f3.vAusgeben(std::cout);std::cout << std::endl;
 	while(dGlobaleZeit < 10){
 		dGlobaleZeit += 0.5;
 		for(auto &f : fahrzeuge){
 			f->vSimulieren();
-			cout << *f << endl;
+			std::cout << *f << std::endl;
 		}
 	}
-	cout << "Gesamtstrecke vom Bike kleiner als vom BMW?  " << (*fahrzeuge[2] < *fahrzeuge[1]) << endl;
+	std::cout << "Gesamtstrecke vom Bike kleiner als vom BMW?  " << (*fahrzeuge[2] < *fahrzeuge[1]) << std::endl;
 
 
 }
 void vAufgabe_AB1() {
 
     int l = 0; // Laufindex für gezielte AUsgabe
-    vector<int> ausgabe{13};
+    std::vector<int> ausgabe{13};
     double dTakt = 0.4;
 
-    std::vector<unique_ptr<Fahrzeug>> vecFahrzeuge;
-    vecFahrzeuge.push_back(make_unique <PKW>("Audi", 231, 11.4));
-    vecFahrzeuge.push_back(make_unique <Fahrrad>("BMX", 19.8));
+    std::vector<std::unique_ptr<Fahrzeug>> vecFahrzeuge;
+    vecFahrzeuge.push_back(std::make_unique <PKW>("Audi", 231, 11.4));
+    vecFahrzeuge.push_back(std::make_unique <Fahrrad>("BMX", 19.8));
     for (dGlobaleZeit = 0; dGlobaleZeit < 10; dGlobaleZeit += dTakt)
     {
         auto itL = find(ausgabe.begin(), ausgabe.end(), l);
@@ -182,7 +180,7 @@ void vAufgabe_AB1() {
                 vecFahrzeuge[i]->dTanken();
             }
             if (itL != ausgabe.end()) {
-                std::cout << *vecFahrzeuge[i] << endl;
+                std::cout << *vecFahrzeuge[i] << std::endl;
             }
         }
         l++;
@@ -193,35 +191,35 @@ void vAufgabe_AB1() {
 void vAufgabe_4(){
 	Weg w1("Weg1", 100, Tempolimit::Innerorts);
 	Weg::vKopf();
-	cout << w1 << endl;
+	std::cout << w1 << std::endl;
 }
 void vAufgabe_5(){
 	Weg w1("Weg1", 100, Tempolimit::Innerorts);
-	unique_ptr<Fahrzeug> f1 = make_unique<PKW>("Mini", 180, 5.5, 40);
-	unique_ptr<Fahrzeug> f2 = make_unique<PKW>("BMW", 220, 7.5, 60);
-	unique_ptr<Fahrzeug> f3 = make_unique<Fahrrad>("Bike", 25);
+	std::unique_ptr<Fahrzeug> f1 = std::make_unique<PKW>("Mini", 180, 5.5, 40);
+	std::unique_ptr<Fahrzeug> f2 = std::make_unique<PKW>("BMW", 220, 7.5, 60);
+	std::unique_ptr<Fahrzeug> f3 = std::make_unique<Fahrrad>("Bike", 25);
 	w1.vAnnahme(std::move(f1));
 	w1.vAnnahme(std::move(f2), 3.0);
 	w1.vAnnahme(std::move(f3), 6);
 	Weg::vKopf();
-	cout << w1 << endl;
+	std::cout << w1 << std::endl;
 	while(dGlobaleZeit < 10){
 		dGlobaleZeit += 0.3;
 		w1.vSimulieren();
-		cout << "---" << endl;
+		std::cout << "---" << std::endl;
 	}
 }
 void vAufgabe_6(){
 	Weg w1("Weg1", 500, Tempolimit::Autobahn);
 	Weg w2("Weg2", 500, Tempolimit::Autobahn);
-	unique_ptr<Fahrzeug> f1 = make_unique<PKW>("Mini", 180, 5.5, 250);
-	unique_ptr<Fahrzeug> f2 = make_unique<PKW>("BMW", 220, 7.5, 60);
-	unique_ptr<Fahrzeug> f3 = make_unique<Fahrrad>("Bike", 25);
+	std::unique_ptr<Fahrzeug> f1 = std::make_unique<PKW>("Mini", 180, 5.5, 250);
+	std::unique_ptr<Fahrzeug> f2 = std::make_unique<PKW>("BMW", 220, 7.5, 60);
+	std::unique_ptr<Fahrzeug> f3 = std::make_unique<Fahrrad>("Bike", 25);
 	w1.vAnnahme(std::move(f1));
 	w1.vAnnahme(std::move(f2), 3.0);
 	w1.vAnnahme(std::move(f3), 0.5);
 	Weg::vKopf();
-	cout << w1 << endl;
+	std::cout << w1 << std::endl;
 
 	bInitialisiereGrafik(800, 500);
 	vSleep(0);
@@ -231,7 +229,7 @@ void vAufgabe_6(){
 	while(dGlobaleZeit < 10){
 		dGlobaleZeit += 0.1;
 		w1.vSimulieren();
-		cout << "---" << endl;
+		std::cout << "---" << std::endl;
 		vSetzeZeit(dGlobaleZeit);
 		vSleep(20);
 	}
@@ -247,39 +245,39 @@ void vAufgabe_6a(){
 		liste.push_back(zuf);
 	}
 	liste.vAktualisieren();
-	cout << "Liste: " << endl;
+	std::cout << "Liste: " << std::endl;
 	for(auto &i : liste){
-		cout << i << " ";
+		std::cout << i << " ";
 	}
-	cout << endl;
+	std::cout << std::endl;
 	for(auto it = liste.begin(); it != liste.end(); ++it){
 		if(*it > 5){
 			liste.erase(it);
 		}
 	}
-	cout << "Liste nachdem erase geplant: " << endl;
+	std::cout << "Liste nachdem erase geplant: " << std::endl;
 	for(auto &i : liste){
-		cout << i << " ";
+		std::cout << i << " ";
 	}
-	cout << endl;
+	std::cout << std::endl;
 	liste.vAktualisieren();
-	cout << "Liste nachdem aktualisiert: " << endl;
+	std::cout << "Liste nachdem aktualisiert: " << std::endl;
 	for(auto &i : liste){
-		cout << i << " ";
+		std::cout << i << " ";
 	}
-	cout << endl;
+	std::cout << std::endl;
 	liste.push_front(100);
 	liste.push_back(200);
 	liste.vAktualisieren();
-	cout << "Liste nachdem push_front und push_back: " << endl;
+	std::cout << "Liste nachdem push_front und push_back: " << std::endl;
 	for(auto &i : liste){
-		cout << i << " ";
+		std::cout << i << " ";
 	}
-	cout << endl;
+	std::cout << std::endl;
 	
 }
 void testat(){
-/* 	unique_ptr<Fahrzeug> pPKW = make_unique<PKW>("BMW",150, 6, 500);
+/* 	std::unique_ptr<Fahrzeug> pPKW = std::make_unique<PKW>("BMW",150, 6, 500);
 	Weg aStr("Strasse",500);
 	aStr.vAnnahme(std::move(pPKW));
 
@@ -288,11 +286,11 @@ void testat(){
 	while(dGlobaleZeit < 10){
 		dGlobaleZeit += 1;
 		aStr.vSimulieren();
-		cout << "---" << endl;
+		std::cout << "---" << std::endl;
 	}
  */
 
-	list<int> listT(3, 2);
+	std::list<int> listT(3, 2);
     listT.remove(1);
     listT.erase(listT.begin());
     for (int i = 0; i < 3; i++)
@@ -303,19 +301,19 @@ void testat(){
     listT.remove(1);
     listT.erase(listT.begin());
 	for(auto &i : listT){
-		cout << i << " ";
+		std::cout << i << " ";
 	}
 }
 void vAufgabe_6_block3(){
 	Weg w1("Weg1", 500, Tempolimit::Autobahn);
-	unique_ptr<Fahrzeug> f1 = make_unique<PKW>("Mini", 80, 5.5, 250);
-	unique_ptr<Fahrzeug> f3 = make_unique<PKW>("Dummerchen", 200, 5.5, 10);
-	unique_ptr<Fahrzeug> f2 = make_unique<PKW>("BMW", 220, 7.5, 60);
+	std::unique_ptr<Fahrzeug> f1 = std::make_unique<PKW>("Mini", 80, 5.5, 250);
+	std::unique_ptr<Fahrzeug> f3 = std::make_unique<PKW>("Dummerchen", 200, 5.5, 10);
+	std::unique_ptr<Fahrzeug> f2 = std::make_unique<PKW>("BMW", 220, 7.5, 60);
 	w1.vAnnahme(std::move(f1));
 	w1.vAnnahme(std::move(f3));
 	w1.vAnnahme(std::move(f2), 2);
 	Weg::vKopf();
-	cout << w1 << endl;
+	std::cout << w1 << std::endl;
 
 	bInitialisiereGrafik(800, 500);
 	vSleep(0);
@@ -325,7 +323,7 @@ void vAufgabe_6_block3(){
 	while(dGlobaleZeit < 10){
 		dGlobaleZeit += 0.1;
 		w1.vSimulieren();
-		//cout << "---" << endl;
+		//std::cout << "---" << std::endl;
 		vSetzeZeit(dGlobaleZeit);
 		vSleep(20);
 	}
@@ -333,22 +331,22 @@ void vAufgabe_6_block3(){
 }
 void vAufgabe7(){
 	//Erstelle Kreuzungen
-	shared_ptr<Kreuzung> kr_1 = make_shared<Kreuzung>("Kreuzung1", 0);
-	shared_ptr<Kreuzung> kr_2 = make_shared<Kreuzung>("Kreuzung2", 1000);
-	shared_ptr<Kreuzung> kr_3 = make_shared<Kreuzung>("Kreuzung3", 0);
-	shared_ptr<Kreuzung> kr_4 = make_shared<Kreuzung>("Kreuzung4", 0);
-/* 	shared_ptr<Weg> str_1 = 	make_shared<Weg>("W12", 40, Tempolimit::Innerorts, true);
-	shared_ptr<Weg> str_1r = 	make_shared<Weg>("W21", 40, Tempolimit::Innerorts, true);
-	shared_ptr<Weg> str_2 = 	make_shared<Weg>("W23a", 115, Tempolimit::Autobahn, false);
-	shared_ptr<Weg> str_2r = 	make_shared<Weg>("W32a", 115, Tempolimit::Autobahn, false);
-	shared_ptr<Weg> str_3 = 	make_shared<Weg>("W23b", 40, Tempolimit::Innerorts, true);
-	shared_ptr<Weg> str_3r = 	make_shared<Weg>("W32b", 40, Tempolimit::Innerorts, true);
-	shared_ptr<Weg> str_4 = 	make_shared<Weg>("W24", 55, Tempolimit::Innerorts, true);
-	shared_ptr<Weg> str_4r = 	make_shared<Weg>("W42", 55, Tempolimit::Innerorts, true);
-	shared_ptr<Weg> str_5 = 	make_shared<Weg>("W43", 85, Tempolimit::Autobahn, true);
-	shared_ptr<Weg> str_5r = 	make_shared<Weg>("W34", 85, Tempolimit::Autobahn, true);
-	shared_ptr<Weg> str_6 = 	make_shared<Weg>("W44a", 130, Tempolimit::Landstrasse, true);
-	shared_ptr<Weg> str_6r = 	make_shared<Weg>("W44b", 130, Tempolimit::Landstrasse, true); */
+	std::shared_ptr<Kreuzung> kr_1 = std::make_shared<Kreuzung>("Kreuzung1", 0);
+	std::shared_ptr<Kreuzung> kr_2 = std::make_shared<Kreuzung>("Kreuzung2", 1000);
+	std::shared_ptr<Kreuzung> kr_3 = std::make_shared<Kreuzung>("Kreuzung3", 0);
+	std::shared_ptr<Kreuzung> kr_4 = std::make_shared<Kreuzung>("Kreuzung4", 0);
+/* 	std::shared_ptr<Weg> str_1 = 	std::make_shared<Weg>("W12", 40, Tempolimit::Innerorts, true);
+	std::shared_ptr<Weg> str_1r = 	std::make_shared<Weg>("W21", 40, Tempolimit::Innerorts, true);
+	std::shared_ptr<Weg> str_2 = 	std::make_shared<Weg>("W23a", 115, Tempolimit::Autobahn, false);
+	std::shared_ptr<Weg> str_2r = 	std::make_shared<Weg>("W32a", 115, Tempolimit::Autobahn, false);
+	std::shared_ptr<Weg> str_3 = 	std::make_shared<Weg>("W23b", 40, Tempolimit::Innerorts, true);
+	std::shared_ptr<Weg> str_3r = 	std::make_shared<Weg>("W32b", 40, Tempolimit::Innerorts, true);
+	std::shared_ptr<Weg> str_4 = 	std::make_shared<Weg>("W24", 55, Tempolimit::Innerorts, true);
+	std::shared_ptr<Weg> str_4r = 	std::make_shared<Weg>("W42", 55, Tempolimit::Innerorts, true);
+	std::shared_ptr<Weg> str_5 = 	std::make_shared<Weg>("W43", 85, Tempolimit::Autobahn, true);
+	std::shared_ptr<Weg> str_5r = 	std::make_shared<Weg>("W34", 85, Tempolimit::Autobahn, true);
+	std::shared_ptr<Weg> str_6 = 	std::make_shared<Weg>("W44a", 130, Tempolimit::Landstrasse, true);
+	std::shared_ptr<Weg> str_6r = 	std::make_shared<Weg>("W44b", 130, Tempolimit::Landstrasse, true); */
 
 	//Verbinde Kreuzungen (dabei werden Wege erstellt)
 	Kreuzung::vVerbinde("W12", "W21", 40, kr_1, kr_2, Tempolimit::Innerorts, true);
@@ -373,19 +371,19 @@ void vAufgabe7(){
 	bZeichneStrasse("W44a", "W44b", 130, 7, new int[14]{320, 300, 320, 150, 200, 60, 80, 90, 70, 250, 170, 300, 320, 300}); //loop oben links
 	
 	//ein paar Fahrzeuge
-	unique_ptr<Fahrzeug> f1 = make_unique<PKW>("Mini", 80, 5.5, 250);
-	unique_ptr<Fahrzeug> f2 = make_unique<PKW>("BMW", 220, 7.5, 60);
-	unique_ptr<Fahrzeug> f3 = make_unique<PKW>("Dummerchen", 200, 5.5, 10);
-	unique_ptr<Fahrzeug> f4 = make_unique<PKW>("Audi", 150, 6, 500);
-	unique_ptr<Fahrzeug> f5 = make_unique<PKW>("VW", 180, 5.5, 250);
-	unique_ptr<Fahrzeug> f6 = make_unique<PKW>("Mercedes", 220, 7.5, 60);
-	unique_ptr<Fahrzeug> f7 = make_unique<PKW>("Opel", 200, 5.5, 100);
-	unique_ptr<Fahrzeug> f8 = make_unique<PKW>("Ford", 150, 6, 500);
-	unique_ptr<Fahrzeug> f9 = make_unique<PKW>("Toyota", 180, 5.5, 250);
-	unique_ptr<Fahrzeug> f10 = make_unique<Fahrrad>("Bike", 25);
-	unique_ptr<Fahrzeug> f11 = make_unique<Fahrrad>("Bike2", 28);
-	unique_ptr<Fahrzeug> f12 = make_unique<Fahrrad>("Bike3", 30);
-	unique_ptr<Fahrzeug> f13 = make_unique<Fahrrad>("Bike4", 20);
+	std::unique_ptr<Fahrzeug> f1 = std::make_unique<PKW>("Mini", 80, 5.5, 250);
+	std::unique_ptr<Fahrzeug> f2 = std::make_unique<PKW>("BMW", 220, 7.5, 60);
+	std::unique_ptr<Fahrzeug> f3 = std::make_unique<PKW>("Dummerchen", 200, 5.5, 10);
+	std::unique_ptr<Fahrzeug> f4 = std::make_unique<PKW>("Audi", 150, 6, 500);
+	std::unique_ptr<Fahrzeug> f5 = std::make_unique<PKW>("VW", 180, 5.5, 250);
+	std::unique_ptr<Fahrzeug> f6 = std::make_unique<PKW>("Mercedes", 220, 7.5, 60);
+	std::unique_ptr<Fahrzeug> f7 = std::make_unique<PKW>("Opel", 200, 5.5, 100);
+	std::unique_ptr<Fahrzeug> f8 = std::make_unique<PKW>("Ford", 150, 6, 500);
+	std::unique_ptr<Fahrzeug> f9 = std::make_unique<PKW>("Toyota", 180, 5.5, 250);
+	std::unique_ptr<Fahrzeug> f10 = std::make_unique<Fahrrad>("Bike", 25);
+	std::unique_ptr<Fahrzeug> f11 = std::make_unique<Fahrrad>("Bike2", 28);
+	std::unique_ptr<Fahrzeug> f12 = std::make_unique<Fahrrad>("Bike3", 30);
+	std::unique_ptr<Fahrzeug> f13 = std::make_unique<Fahrrad>("Bike4", 20);
 	
 	//Fahrzeuge auf Kreuzung 1 stellen
 	kr_1->vAnnahme(std::move(f1), 0.1);
@@ -413,8 +411,33 @@ void vAufgabe7(){
 	}
 	vBeendeGrafik();
 }
+void vAufgabe8(){
+	std::ifstream inputFile("/Users/marti/eclipse-workspace/prakti_info2/Aufgabenblock_3/VO.dat");
+	if (!inputFile) {
+		throw std::runtime_error("File not found");
+		return;
+	}
+	try {
+		std::unique_ptr<Fahrrad> fahrrad = std::make_unique<Fahrrad>();
+		std::unique_ptr<PKW> pkw = std::make_unique<PKW>();
+		std::shared_ptr<Kreuzung> kreuzung = std::make_shared<Kreuzung>();
+		inputFile >> *pkw >> *fahrrad >> *kreuzung;
+		std::cout << *pkw << std::endl << *fahrrad << std::endl << *kreuzung << std::endl;
+	}
+	catch (const std::exception& e) {
+		throw e;
+		return;
+	}
+}
+
+
 int main() {
+	try{
 	//vAufgabe_6_block3();
-    vAufgabe7();
+    //vAufgabe7();
+	vAufgabe8();
+	} catch(std::exception &e){
+		std::cout << "FEHLER: " << e.what() << std::endl;
+	}
 	return 0;
 }

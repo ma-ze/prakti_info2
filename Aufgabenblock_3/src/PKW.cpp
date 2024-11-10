@@ -9,6 +9,8 @@
 #include "Verhalten.h"
 #include "SimuClient.h"
 
+PKW::PKW() : Fahrzeug() {}
+
 PKW::PKW(const std::string &name, double maxSpeed, double verbrauch)
 : Fahrzeug(name, maxSpeed), p_dVerbrauch(verbrauch)
 {
@@ -57,6 +59,12 @@ void PKW::vAusgeben(std::ostream& out) const{
     Fahrzeug::vAusgeben(out);
     double gestamtVerbrauch = p_dGesamtStrecke / 100 * p_dVerbrauch;
     out << std::setw(15) << gestamtVerbrauch << std::setw(15) << p_dTankinhalt;
+}
+
+void PKW::vEinlesen(std::istream& in){
+    Fahrzeug::vEinlesen(in);
+    in >> p_dVerbrauch >> p_dTankvolumen;
+    p_dTankinhalt = p_dTankvolumen;
 }
 
 void PKW::vZeichnen(Weg &weg) const{

@@ -8,6 +8,7 @@
 
 class Kreuzung : public Simulationsobjekt {
 public:
+    Kreuzung();
     Kreuzung(const std::string& name, double tankstelleVolumen);
     Kreuzung(const Kreuzung& other); // Copy constructor
     Kreuzung& operator=(const Kreuzung& other); // Copy assignment operator
@@ -23,6 +24,7 @@ public:
     );
     void vTanken(Fahrzeug* fzg);
     void vAnnahme(std::unique_ptr<Fahrzeug> fahrzeug, double dStartZeit);
+    void vEinlesen(std::istream& in) override;
     void vSimulieren() override;
     std::shared_ptr<Weg> pZufaelligerWeg(Weg& ankommenderWeg);
 

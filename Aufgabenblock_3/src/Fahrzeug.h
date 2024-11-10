@@ -14,6 +14,7 @@ class Verhalten;
 class Weg;
 
 std::ostream& operator<<(std::ostream& out, Simulationsobjekt& so);
+std::istream& operator>>(std::istream& in, Simulationsobjekt& obj);
 
 
 class Fahrzeug : public Simulationsobjekt {
@@ -26,6 +27,7 @@ public:
     Fahrzeug& operator=(const Fahrzeug& other); // Zuweisungsoperator
     static const void vKopf();
     virtual void vAusgeben(std::ostream& out) const override;
+    virtual void vEinlesen(std::istream& in) override;
     virtual void vSimulieren() override;
     virtual double dTanken(double dMenge = std::numeric_limits<double>::infinity());
 

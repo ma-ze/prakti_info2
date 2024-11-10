@@ -8,6 +8,8 @@
 #include "SimuClient.h"
 #include "Weg.h"
 
+Fahrrad::Fahrrad() : Fahrzeug(){}
+
 Fahrrad::Fahrrad(const std::string& name, double maxSpeed) : Fahrzeug(name, maxSpeed)
 {}
 

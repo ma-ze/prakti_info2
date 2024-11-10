@@ -20,6 +20,12 @@ void Simulationsobjekt::vAusgeben(std::ostream &out) const
         << p_iID << std::setw(20) << p_sName;
 }
 
+void Simulationsobjekt::vEinlesen(std::istream &in)
+{
+    if(!p_sName.empty()) throw std::runtime_error("object name already set");
+    in >> p_sName;
+}
+
 bool Simulationsobjekt::operator==(const Simulationsobjekt &other) const{
     return p_iID == other.p_iID;
 }
@@ -28,6 +34,12 @@ std::ostream& operator<<(std::ostream& out, const Simulationsobjekt& obj) {
     obj.vAusgeben(out);
     return out;
 }
+
+std::istream& operator>>(std::istream& in, Simulationsobjekt& obj) {
+    obj.vEinlesen(in);
+    return in;
+}
+
 std::string Simulationsobjekt::getName() const {
     return p_sName;
 }

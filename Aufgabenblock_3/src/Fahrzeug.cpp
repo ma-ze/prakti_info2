@@ -37,6 +37,9 @@ void Fahrzeug::vAusgeben(std::ostream& out) const {
     out << std::setw(20) << p_dMaxGeschwindigkeit << std::setw(15) << p_dGesamtStrecke << std::setw(15) 
     << p_dAbschnittStrecke << std::setw(15) << p_dGesamtZeit << std::setw(15) << p_dZeit;
 }
+void Fahrzeug::vEinlesen(std::istream& in) {
+    in >> p_sName >> p_dMaxGeschwindigkeit;
+}
 const void Fahrzeug::vKopf() {
     std::cout << std::setw(5)<< std::resetiosflags(std::ios::left) << std::setiosflags(std::ios::right)
     << "ID" << std::setw(20) << "Name" << std::setw(20) << "MaxGeschwindigkeit" << std::setw(15) << "GesamtStrecke" << std::setw(15)

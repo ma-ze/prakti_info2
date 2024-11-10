@@ -1,6 +1,7 @@
 #include "Kreuzung.h"
 #include "PKW.h"
 
+Kreuzung::Kreuzung() : Simulationsobjekt() {}
 Kreuzung::Kreuzung(const std::string &name, double tankstelleVolumen) : Simulationsobjekt(name), p_dTankstelle(tankstelleVolumen) {}
 
 Kreuzung::Kreuzung(const Kreuzung& other) 
@@ -65,4 +66,8 @@ std::shared_ptr<Weg> Kreuzung::pZufaelligerWeg(Weg &ankommenderWeg){
 
     int zufaelligerIndex = rand() % moeglicheWege.size();
     return moeglicheWege[zufaelligerIndex];
+}
+
+void Kreuzung::vEinlesen(std::istream &in) {
+    in >> p_sName >> p_dTankstelle;
 }

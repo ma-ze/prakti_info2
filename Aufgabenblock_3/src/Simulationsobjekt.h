@@ -8,7 +8,6 @@
 extern double dGlobaleZeit;
 
 
-
 class Simulationsobjekt {
 public:
     Simulationsobjekt();
@@ -17,6 +16,7 @@ public:
     Simulationsobjekt(const Simulationsobjekt&) = delete; // Verbietet den Copy-Konstruktor
     Simulationsobjekt& operator=(const Simulationsobjekt&) = delete; // verbietet Zuweisungsoperator
     virtual void vAusgeben(std::ostream& out) const;
+    virtual void vEinlesen(std::istream& in);
     virtual void vSimulieren() = 0; // Rein virtuelle Methode
 
     bool operator==(const Simulationsobjekt& other) const;

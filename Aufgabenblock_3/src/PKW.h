@@ -12,12 +12,14 @@
 
 class PKW : public Fahrzeug {
 public:
+    PKW();
     PKW(const std::string& name, double maxSpeed, double verbrauch);
     PKW(const std::string& name, double maxSpeed, double verbrauch, double tankvolumen);
     virtual ~PKW();
     double dTanken(double dMenge = std::numeric_limits<double>::infinity()) override;
     void vSimulieren() override;
     void vAusgeben(std::ostream& out) const override;
+    void vEinlesen(std::istream& in) override;
     void vZeichnen(Weg& weg) const override;
 
 private:
