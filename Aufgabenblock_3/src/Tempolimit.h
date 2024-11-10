@@ -4,13 +4,23 @@
 #include <limits>
 
 enum class Tempolimit {
-    Innerorts = 50,
-    Landstrasse = 100,
-    Autobahn = std::numeric_limits<int>::max()
+    Innerorts = 0,
+    Landstrasse,
+    Autobahn
 };
 
 inline double getTempolimit(Tempolimit limit) {
-    return static_cast<double>(limit);
+    double val = 0;
+    if(limit == Tempolimit::Innerorts) {
+        val = 50.0;
+    }
+    else if(limit == Tempolimit::Landstrasse) {
+        val =  100.0;
+    }
+    else if(limit == Tempolimit::Autobahn) {
+        val =  std::numeric_limits<int>::max();
+    }
+    return val;
 }
 
 #endif /* TEMPOLIMIT_H_ */

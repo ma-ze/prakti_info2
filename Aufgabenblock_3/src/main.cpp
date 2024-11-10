@@ -20,6 +20,7 @@
 #include "SimuClient.h"
 #include "vertagt_liste.h"
 #include "vertagt_aktion.h"
+#include "Simulation.h"
 
 
 double dGlobaleZeit = 0.0;
@@ -412,12 +413,12 @@ void vAufgabe7(){
 	vBeendeGrafik();
 }
 void vAufgabe8(){
-	std::ifstream inputFile("/Users/marti/eclipse-workspace/prakti_info2/Aufgabenblock_3/VO.dat");
-	if (!inputFile) {
-		throw std::runtime_error("File not found");
-		return;
-	}
 	try {
+		std::ifstream inputFile("/Users/marti/eclipse-workspace/prakti_info2/Aufgabenblock_3/VO.dat");
+		if (!inputFile) {
+			throw std::runtime_error("File not found");
+			return;
+		}
 		std::unique_ptr<Fahrrad> fahrrad = std::make_unique<Fahrrad>();
 		std::unique_ptr<PKW> pkw = std::make_unique<PKW>();
 		std::shared_ptr<Kreuzung> kreuzung = std::make_shared<Kreuzung>();
@@ -425,19 +426,41 @@ void vAufgabe8(){
 		std::cout << *pkw << std::endl << *fahrrad << std::endl << *kreuzung << std::endl;
 	}
 	catch (const std::exception& e) {
-		throw e;
+		std::cout << "FEHLER: " << e.what() << std::endl;
 		return;
 	}
 }
-
-
+void vAufgabe9(){
+	std::ifstream inputFile("/Users/marti/eclipse-workspace/prakti_info2/Aufgabenblock_3/Simu.dat");
+	if (!inputFile) {
+		throw std::runtime_error("File not found");
+		return;
+	}
+	Simulation sim;
+	sim.vEinlesen(inputFile);
+}
+void vAufgabe10(){
+	std::ifstream inputFile("/Users/marti/eclipse-workspace/prakti_info2/Aufgabenblock_3/SimuDisplay.dat");
+	if (!inputFile) {
+		throw std::runtime_error("File not found");
+		return;
+	}
+	Simulation sim;
+	sim.vEinlesen(inputFile, true);
+	while(dGlobaleZeit < 100){
+		dGlobaleZeit += 0.1;
+		sim.vSimulieren();
+		vSetzeZeit(dGlobaleZeit);
+		//vSleep(20);
+    }    
+	
+	vBeendeGrafik();
+}
 int main() {
-	try{
 	//vAufgabe_6_block3();
     //vAufgabe7();
-	vAufgabe8();
-	} catch(std::exception &e){
-		std::cout << "FEHLER: " << e.what() << std::endl;
-	}
+	//vAufgabe8();
+	//vAufgabe9();
+	vAufgabe10();
 	return 0;
 }
