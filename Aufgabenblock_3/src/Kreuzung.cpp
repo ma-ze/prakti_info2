@@ -35,6 +35,7 @@ void Kreuzung::vTanken(Fahrzeug *fzg){
     if(pkw != nullptr){
         // fzg is a PKW
         double tankmenge = pkw->dTanken();
+        std::cout << "⛽ Tanken: " << fzg->getName() << " tankt " << tankmenge << " Liter." << std::endl;
         p_dTankstelle -= tankmenge;
     }
 }

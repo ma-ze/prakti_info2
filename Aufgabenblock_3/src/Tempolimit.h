@@ -4,9 +4,9 @@
 #include <limits>
 
 enum class Tempolimit {
-    Innerorts = 0,
-    Landstrasse,
-    Autobahn
+    Innerorts = 1,
+    Landstrasse = 2,
+    Autobahn = 3
 };
 
 inline double getTempolimit(Tempolimit limit) {

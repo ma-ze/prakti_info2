@@ -8,9 +8,10 @@ public:
     Streckenende(Fahrzeug& fahrzeug, Weg& weg) : Fahrausnahme(fahrzeug, weg) {}
     void vBearbeiten() override {
         
-        std::cout << std::endl << "⛔ Fahrausnahme: Streckenende auf " << p_weg.getName() << " mit Fahrzeug: " << std::endl;
+        std::cout << std::endl << "🔄 Fahrausnahme: Streckenende auf " << p_weg.getName() << " mit Fahrzeug: " << std::endl;
         std::unique_ptr<Fahrzeug> fz = p_weg.pAbgabe(p_fahrzeug);
         std::shared_ptr<Weg> zielweg = p_weg.getZielkreuzung()->pZufaelligerWeg(p_weg);
+        p_weg.getZielkreuzung()->vTanken(fz.get());
         zielweg->vAnnahme(std::move(fz));
         std::cout << "ZEIT: " << dGlobaleZeit << std::endl;
         std::cout << "KREUZUNG: " << p_weg.getZielkreuzung()->getName() << std::endl;

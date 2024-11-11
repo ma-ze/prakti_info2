@@ -447,7 +447,7 @@ void vAufgabe10(){
 	}
 	Simulation sim;
 	sim.vEinlesen(inputFile, true);
-	while(dGlobaleZeit < 100){
+	while(dGlobaleZeit < 10){
 		dGlobaleZeit += 0.1;
 		sim.vSimulieren();
 		vSetzeZeit(dGlobaleZeit);
